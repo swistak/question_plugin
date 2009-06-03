@@ -44,6 +44,6 @@
 <% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom,
                             {:controller => 'issues', :action => 'index', :set_filter => 1,
-                             :assigned_to_id => 'me', :format => 'atom', :key => User.current.rss_key},
-                            {:title => l(:label_assigned_to_me_issues)}) %>
+                             :question_assigned_to_id => 'me', :format => 'atom', :key => User.current.rss_key},
+                            {:title => l(:label_question_assigned_to_me_issues)}) %>
 <% end %>
