@@ -59,11 +59,11 @@ JS
   def view_issues_sidebar_issues_bottom(context = { })
     project = context[:project]
     if project
-      question_count = Question.count(:conditions => ["#{Question.table_name}.assigned_to_id = ? AND #{Project.table_name}.id = ? AND #{Question.table_name}.opened = ?",
-                                                      User.current,
-                                                      project.id,
-                                                      true],
-                                      :include => [:issue => [:project]])
+      query_string = "SELECT COUNT(questions.id) FROM questions, issues WHERE #{Question.table_name}.issue_id = #{Issue.table_name}.id"
+      query_string << " AND #{Question.table_name}.assigned_to_id = ?"
+      query_string << " AND #{Issue.table_name}.project_id = ?"
+      query_string << " AND #{Question.table_name}.opened = ?"
+      question_count = Question.count_by_sql([query_string, User.current, project.id, true])
     else
       question_count = Question.count(:conditions => {:assigned_to_id => User.current, :opened => true})
     end
