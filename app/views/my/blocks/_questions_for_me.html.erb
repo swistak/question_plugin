@@ -1,4 +1,4 @@
-<h3><%= l(:text_question_asked) %> (<%= Question.count(:conditions => { :opened => true, :assigned_to_id => User.current.id})%>)</h3>
+<h3><%= l(:text_questions_for_me) %> (<%= Question.count(:conditions => { :opened => true, :assigned_to_id => User.current.id})%>)</h3>
 <% questions_for_me = Question.find(:all, :conditions => { :opened => true, :assigned_to_id => User.current.id }) %>
 <% issues = Issue.find( :all,
                         :conditions => {
@@ -16,7 +16,7 @@
 	<table class="list issues">
 		<thead><tr>
 		<th>#</th>
-		<th><%=l(:field_project)%></th>
+		<th><%=l(:field_author)%></th>
 		<th><%=l(:field_subject)%></th>
 		<th><%=l(:field_formatted_questions)%></th>
 		</tr></thead>
@@ -27,7 +27,7 @@
 			  <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>
 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>
 			</td>
-			<td class="project"><%= link_to(h(issue.project), :controller => 'projects', :action => 'show', :id => issue.project) %></td>
+			<td class="project"><%= link_to(h(issue.questions.last.author), :controller => 'issues', :action => 'show', :id => issue) %></td>
 			<td class="subject">
         <%= link_to h(truncate(issue.subject, :length => 60)), :controller => 'issues', :action => 'show', :id => issue %> (<%=h issue.status %>)
       </td>
